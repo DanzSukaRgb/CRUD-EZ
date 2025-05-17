@@ -2,7 +2,7 @@
 
 @section('title', 'Tambah Data Siswa')
 
-@section('contents')
+@section('konten')
 <div class="container mt-4">
     <div class="card shadow-sm">
         <div class="card-header">
