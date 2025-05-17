@@ -13,7 +13,7 @@ class SiswaController extends Controller
     public function index()
     {
         // Ambil data siswa dengan pagination
-        $siswas = Siswa::latest()->paginate(10);
+        $siswas = Siswa::all();
 
         return view('siswa.index', compact('siswas'));
     }
@@ -34,8 +34,8 @@ class SiswaController extends Controller
         // Validasi input
         $validated = $request->validate([
             'nama' => 'required|max:100',
+            'kelas' => 'required|max:10',
             'jenis_kelamin' => 'required|in:L,P',
-            'kelas' => 'required|max:10'
         ]);
 
         // Simpan data baru
@@ -81,7 +81,7 @@ class SiswaController extends Controller
         // Update data
         $siswa->update($validated);
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('Siswa.index')
                          ->with('success', 'Data siswa berhasil diperbarui');
     }
 
