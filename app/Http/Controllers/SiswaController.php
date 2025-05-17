@@ -41,7 +41,7 @@ class SiswaController extends Controller
         // Simpan data baru
         Siswa::create($validated);
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('Siswa.index')
                          ->with('success', 'Data siswa berhasil ditambahkan');
     }
 
@@ -51,7 +51,7 @@ class SiswaController extends Controller
     public function show(string $id)
     {
         $siswa = Siswa::findOrFail($id);
-        return view('siswa.show', compact('siswa'));
+        return view('Siswa.show', compact('siswa'));
     }
 
     /**
@@ -60,7 +60,7 @@ class SiswaController extends Controller
     public function edit(string $id)
     {
         $siswa = Siswa::findOrFail($id);
-        return view('siswa.edit', compact('siswa'));
+        return view('Siswa.edit', compact('siswa'));
     }
 
     /**
@@ -93,7 +93,7 @@ class SiswaController extends Controller
         $siswa = Siswa::findOrFail($id);
         $siswa->delete();
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('Siswa.index')
                          ->with('success', 'Data siswa berhasil dihapus');
     }
 }
