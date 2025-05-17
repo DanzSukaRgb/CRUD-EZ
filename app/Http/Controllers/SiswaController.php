@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 
 class SiswaController extends Controller
@@ -10,8 +11,10 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $siswa=Siswa::all();
-        return view('siswa.index',compact('siswa'));
+        // Ambil data siswa dengan pagination
+        $siswas = Siswa::latest()->paginate(10);
+
+        return view('siswa.index', compact('siswas'));
     }
 
     /**
@@ -19,7 +22,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('siswa.create');
     }
 
     /**
@@ -27,7 +30,18 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input
+        $validated = $request->validate([
+            'nama' => 'required|max:100',
+            'jenis_kelamin' => 'required|in:L,P',
+            'kelas' => 'required|max:10'
+        ]);
+
+        // Simpan data baru
+        Siswa::create($validated);
+
+        return redirect()->route('siswa.index')
+                         ->with('success', 'Data siswa berhasil ditambahkan');
     }
 
     /**
@@ -35,7 +49,8 @@ class SiswaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+        return view('siswa.show', compact('siswa'));
     }
 
     /**
@@ -43,7 +58,8 @@ class SiswaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+        return view('siswa.edit', compact('siswa'));
     }
 
     /**
@@ -51,7 +67,21 @@ class SiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+
+        // Validasi input
+        $validated = $request->validate([
+
+            'nama' => 'required|max:100',
+            'kelas' => 'requireed|max:10',
+            'jenis_kelamin' => 'required|in:L,P',
+        ]);
+
+        // Update data
+        $siswa->update($validated);
+
+        return redirect()->route('siswa.index')
+                         ->with('success', 'Data siswa berhasil diperbarui');
     }
 
     /**
@@ -59,6 +89,10 @@ class SiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+        $siswa->delete();
+
+        return redirect()->route('siswa.index')
+                         ->with('success', 'Data siswa berhasil dihapus');
     }
 }
