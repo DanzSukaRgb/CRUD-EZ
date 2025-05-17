@@ -33,11 +33,8 @@ class SiswaController extends Controller
     {
         // Validasi input
         $validated = $request->validate([
-            'nis' => 'required|unique:siswas,nis|max:20',
             'nama' => 'required|max:100',
             'jenis_kelamin' => 'required|in:L,P',
-            'alamat' => 'required',
-            'tanggal_lahir' => 'required|date',
             'kelas' => 'required|max:10'
         ]);
 
